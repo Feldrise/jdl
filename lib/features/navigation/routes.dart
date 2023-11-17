@@ -6,6 +6,7 @@ import 'package:jdl/features/authentication/authentication_page.dart';
 import 'package:jdl/features/authentication/models/group/group.dart';
 import 'package:jdl/features/games/game_cards_page/game_cards_page.dart';
 import 'package:jdl/features/games/game_modes_page/game_modes_page.dart';
+import 'package:jdl/features/games/game_play_page/game_play_page.dart';
 import 'package:jdl/features/games/games_page/games_page.dart';
 import 'package:jdl/features/home/home_page/home_page.dart';
 
@@ -46,9 +47,19 @@ GoRouter router(Group? group) {
           routes: [
             GoRoute(
                 path: "games",
-                builder: (context, state) => const PageLayout(child: LoadingOverlay(child: GamesPage())),
-                pageBuilder: (context, state) =>
-                    _buildPageWithDefaultTransition(context: context, state: state, child: const LoadingOverlay(child: PageLayout(child: GamesPage()))),
+                builder: (context, state) => const PageLayout(
+                        child: LoadingOverlay(
+                            child: GamesPage(
+                      mode: GamesPageMode.editing,
+                    ))),
+                pageBuilder: (context, state) => _buildPageWithDefaultTransition(
+                    context: context,
+                    state: state,
+                    child: const LoadingOverlay(
+                        child: PageLayout(
+                            child: GamesPage(
+                      mode: GamesPageMode.editing,
+                    )))),
                 routes: [
                   GoRoute(
                       path: ":id",
@@ -83,7 +94,40 @@ GoRouter router(Group? group) {
                               )))),
                         )
                       ])
-                ])
+                ]),
+            GoRoute(
+                path: "play",
+                builder: (context, state) => const PageLayout(
+                        child: LoadingOverlay(
+                            child: GamesPage(
+                      mode: GamesPageMode.playing,
+                    ))),
+                pageBuilder: (context, state) => _buildPageWithDefaultTransition(
+                      context: context,
+                      state: state,
+                      child: const LoadingOverlay(
+                          child: PageLayout(
+                              child: GamesPage(
+                        mode: GamesPageMode.playing,
+                      ))),
+                    ),
+                routes: [
+                  GoRoute(
+                      path: ":id",
+                      builder: (context, state) => PageLayout(
+                              child: LoadingOverlay(
+                                  child: GamePlayPage(
+                            gameID: int.tryParse(state.pathParameters["id"] as String) ?? 0,
+                          ))),
+                      pageBuilder: (context, state) => _buildPageWithDefaultTransition(
+                          context: context,
+                          state: state,
+                          child: LoadingOverlay(
+                              child: PageLayout(
+                                  child: GamePlayPage(
+                            gameID: int.tryParse(state.pathParameters["id"] as String) ?? 0,
+                          ))))),
+                ]),
           ])
   ]);
 }

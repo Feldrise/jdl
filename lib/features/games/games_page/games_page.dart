@@ -5,8 +5,12 @@ import 'package:jdl/features/games/games_page/dialogs/add_game.dart';
 import 'package:jdl/features/games/widgets/games_list.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+enum GamesPageMode { editing, playing }
+
 class GamesPage extends StatefulWidget {
-  const GamesPage({super.key});
+  const GamesPage({super.key, required this.mode});
+
+  final GamesPageMode mode;
 
   @override
   State<GamesPage> createState() => _GamesPageState();
@@ -33,14 +37,20 @@ class _GamesPageState extends State<GamesPage> {
                     ),
                     Expanded(child: GamesList(
                       onGameClicked: (id) {
-                        context.go("/games/$id");
+                        if (widget.mode == GamesPageMode.playing) {
+                          context.go("/play/$id");
+                        } else if (widget.mode == GamesPageMode.editing) {
+                          context.go("/games/$id");
+                        }
                       },
                     ))
                   ])))),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _onAddGame,
-        child: const Icon(LucideIcons.plus),
-      ),
+      floatingActionButton: widget.mode == GamesPageMode.editing
+          ? FloatingActionButton(
+              onPressed: _onAddGame,
+              child: const Icon(LucideIcons.plus),
+            )
+          : null,
     );
   }
 

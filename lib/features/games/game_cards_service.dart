@@ -34,6 +34,28 @@ class GameCardsService {
     throw PlatformException(code: response.statusCode.toString(), message: response.body);
   }
 
+  Future<List<GameCard>> getRandom(int gameID, {int limit = 20, required String groupCode}) async {
+    final http.Response response = await http.get(
+      Uri.parse("$kApiBaseURL/games/$gameID/cards/random?limit=$limit"),
+      headers: {
+        "JDLGroupCode": groupCode,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<Map<String, dynamic>> gameCardsMaps = (jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>).cast<Map<String, dynamic>>();
+      final List<GameCard> result = [];
+
+      for (final map in gameCardsMaps) {
+        result.add(GameCard.fromJson(map));
+      }
+
+      return result;
+    }
+
+    throw PlatformException(code: response.statusCode.toString(), message: response.body);
+  }
+
   Future<void> create(String content, int gameID, {required String groupCode}) async {
     final http.Response response = await http.post(Uri.parse("$kApiBaseURL/games/$gameID/cards"),
         headers: {
