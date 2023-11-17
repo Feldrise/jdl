@@ -7,6 +7,7 @@ import 'package:jdl/core/widgets/loading_overlay.dart';
 import 'package:jdl/core/widgets/status_message.dart';
 import 'package:jdl/features/authentication/authentication_provider.dart';
 import 'package:jdl/features/games/game_cards_page/dialogs/add_update_card.dart';
+import 'package:jdl/features/games/game_cards_page/widgets/game_card.dart';
 import 'package:jdl/features/games/game_cards_service.dart';
 import 'package:jdl/features/games/games_service.dart';
 import 'package:jdl/features/games/models/game_card/game_card.dart';
@@ -38,7 +39,7 @@ class _GameCardsPageState extends ConsumerState<GameCardsPage> {
         ),
       ),
       body: Container(
-          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/backgrounds/plants.png"), alignment: Alignment.bottomCenter)),
+          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/backgrounds/plantsdark.png"), alignment: Alignment.bottomCenter)),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Center(
               child: ConstrainedBox(
@@ -113,28 +114,7 @@ class _GameCardsPageState extends ConsumerState<GameCardsPage> {
 
                           return ListView.separated(
                             itemCount: gameCards.length,
-                            itemBuilder: (context, index) => BackgroundedButton(
-                              image: kModuloImage(index, padding: 3),
-                              color: kModuloBackgroundColor(context, index, padding: 1),
-                              onPressed: () => _onUpdateGameCard(gameCards[index]),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 12, left: 20, right: 60, bottom: 12),
-                                child: Row(
-                                  children: [
-                                    IconButton(onPressed: () => _onUpdateGameCard(gameCards[index]), icon: const Icon(LucideIcons.edit)),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        gameCards[index].content,
-                                        style: Theme.of(context).textTheme.titleSmall!.copyWith(color: kModuloTextColor(context, index, padding: 1)),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            itemBuilder: (context, index) => GameCardCard(card: gameCards[index], gameID: widget.gameID, index: index),
                             separatorBuilder: (context, index) => const SizedBox(
                               height: 8,
                             ),
@@ -154,21 +134,6 @@ class _GameCardsPageState extends ConsumerState<GameCardsPage> {
     bool hasGameAdded =
         await showModalBottomSheet<bool?>(context: context, builder: (context) => LoadingOverlay(child: AddUpdateGameCardDialog(gameID: widget.gameID))) ??
             false;
-
-    if (hasGameAdded) {
-      setState(() {});
-    }
-  }
-
-  Future<void> _onUpdateGameCard(GameCard initialCard) async {
-    bool hasGameAdded = await showModalBottomSheet<bool?>(
-            context: context,
-            builder: (context) => LoadingOverlay(
-                    child: AddUpdateGameCardDialog(
-                  gameID: widget.gameID,
-                  initialGameCard: initialCard,
-                ))) ??
-        false;
 
     if (hasGameAdded) {
       setState(() {});

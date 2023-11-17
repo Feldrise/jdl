@@ -61,7 +61,7 @@ class GamesList extends ConsumerWidget {
                         Expanded(
                           child: Text(
                             games[index].name,
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: kModuloTextColor(context, index)),
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: kModuloTextContainerColor(context, index)),
                           ),
                         ),
                       ],

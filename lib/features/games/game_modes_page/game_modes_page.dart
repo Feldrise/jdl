@@ -29,7 +29,7 @@ class _GameModesPageState extends ConsumerState<GameModesPage> {
           ),
         ),
         body: Container(
-            decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/backgrounds/plants.png"), alignment: Alignment.bottomCenter)),
+            decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/backgrounds/plantsdark.png"), alignment: Alignment.bottomCenter)),
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Center(
                 child: ConstrainedBox(

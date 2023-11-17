@@ -47,7 +47,23 @@ Color kModuloBackgroundColor(BuildContext context, int index, {int padding = 1})
   return Theme.of(context).colorScheme.primaryContainer;
 }
 
-Color kModuloTextColor(BuildContext context, int index, {int padding = 1}) {
+Color kModuloColor(BuildContext context, int index, {int padding = 1}) {
+  final int evaluatedIndex = index + padding;
+
+  if (evaluatedIndex % 3 == 0) {
+    return Theme.of(context).colorScheme.secondary;
+  }
+  if (evaluatedIndex % 3 == 1) {
+    return Theme.of(context).colorScheme.tertiary;
+  }
+  if (evaluatedIndex % 3 == 2) {
+    return Theme.of(context).colorScheme.primary;
+  }
+
+  return Theme.of(context).colorScheme.primary;
+}
+
+Color kModuloTextContainerColor(BuildContext context, int index, {int padding = 1}) {
   final int evaluatedIndex = index + padding;
 
   if (evaluatedIndex % 3 == 0) {
@@ -61,4 +77,20 @@ Color kModuloTextColor(BuildContext context, int index, {int padding = 1}) {
   }
 
   return Theme.of(context).colorScheme.onPrimaryContainer;
+}
+
+Color kModuloTextColor(BuildContext context, int index, {int padding = 1}) {
+  final int evaluatedIndex = index + padding;
+
+  if (evaluatedIndex % 3 == 0) {
+    return Theme.of(context).colorScheme.onSecondary;
+  }
+  if (evaluatedIndex % 3 == 1) {
+    return Theme.of(context).colorScheme.onTertiary;
+  }
+  if (evaluatedIndex % 3 == 2) {
+    return Theme.of(context).colorScheme.onPrimary;
+  }
+
+  return Theme.of(context).colorScheme.onPrimary;
 }
