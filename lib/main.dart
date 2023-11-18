@@ -19,26 +19,28 @@ class MainApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder(
-        future: ref.read(authenticationProvider.notifier).initialGroup(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Image.asset(
-              "assets/backgrounds/plantsdark.png",
-              fit: BoxFit.cover,
-            );
-          }
+    return SafeArea(
+      child: FutureBuilder(
+          future: ref.read(authenticationProvider.notifier).initialGroup(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Image.asset(
+                "assets/backgrounds/plantsdark.png",
+                fit: BoxFit.cover,
+              );
+            }
 
-          return Builder(builder: (context) {
-            final Group? watchedGroup = ref.watch(authenticationProvider);
+            return Builder(builder: (context) {
+              final Group? watchedGroup = ref.watch(authenticationProvider);
 
-            return MaterialApp.router(
-              theme: JDLTheme.theme(),
-              localizationsDelegates: GlobalMaterialLocalizations.delegates,
-              supportedLocales: const [Locale("fr")],
-              routerConfig: router(watchedGroup),
-            );
-          });
-        });
+              return MaterialApp.router(
+                theme: JDLTheme.theme(),
+                localizationsDelegates: GlobalMaterialLocalizations.delegates,
+                supportedLocales: const [Locale("fr")],
+                routerConfig: router(watchedGroup),
+              );
+            });
+          }),
+    );
   }
 }
