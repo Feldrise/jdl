@@ -118,6 +118,7 @@ GoRouter router(Group? group) {
                               child: LoadingOverlay(
                                   child: GamePlayPage(
                             gameID: int.tryParse(state.pathParameters["id"] as String) ?? 0,
+                            modeID: int.tryParse(state.uri.queryParameters["mode"] ?? ""),
                           ))),
                       pageBuilder: (context, state) => _buildPageWithDefaultTransition(
                           context: context,
@@ -126,6 +127,7 @@ GoRouter router(Group? group) {
                               child: PageLayout(
                                   child: GamePlayPage(
                             gameID: int.tryParse(state.pathParameters["id"] as String) ?? 0,
+                            modeID: int.tryParse(state.uri.queryParameters["mode"] ?? ""),
                           ))))),
                 ]),
           ])

@@ -8,10 +8,12 @@ import 'package:masoiree/features/games/game_modes_service.dart';
 import 'package:masoiree/features/games/models/game_mode/game_mode.dart';
 
 class GameModeListDialog extends ConsumerWidget {
-  const GameModeListDialog({super.key, required this.gameID, required this.modeToExclude});
+  const GameModeListDialog({super.key, required this.gameID, required this.modeToExclude, this.showMaster = false});
 
   final int gameID;
   final List<int> modeToExclude;
+
+  final bool showMaster;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -73,6 +75,43 @@ class GameModeListDialog extends ConsumerWidget {
                   }
 
                   return ListView(shrinkWrap: true, children: [
+                    if (showMaster) ...[
+                      InkWell(
+                        onTap: () => Navigator.of(context).pop(const GameMode(0, name: "")),
+                        child: Card(
+                          color: Theme.of(context).colorScheme.primary,
+                          surfaceTintColor: Theme.of(context).colorScheme.primary,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 12),
+                                    child: Text(
+                                      "Mélanger tous les modes",
+                                      style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Image.asset(
+                                  "assets/images/human2.png",
+                                  width: 48,
+                                  alignment: Alignment.bottomRight,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
                     for (int index = 0; index < gameModes.length; ++index)
                       if (!modeToExclude.contains(gameModes[index].id)) ...[
                         InkWell(

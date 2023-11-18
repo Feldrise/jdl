@@ -34,9 +34,10 @@ class GameCardsService {
     throw PlatformException(code: response.statusCode.toString(), message: response.body);
   }
 
-  Future<List<GameCard>> getRandom(int gameID, {int limit = 20, required String groupCode}) async {
+  Future<List<GameCard>> getRandom(int gameID, {int limit = 20, int? modeID, required String groupCode}) async {
+    final String modeIDFilter = modeID == null ? "" : "&mode=$modeID";
     final http.Response response = await http.get(
-      Uri.parse("$kApiBaseURL/games/$gameID/cards/random?limit=$limit"),
+      Uri.parse("$kApiBaseURL/games/$gameID/cards/random?limit=$limit$modeIDFilter"),
       headers: {
         "JDLGroupCode": groupCode,
       },

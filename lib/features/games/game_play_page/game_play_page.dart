@@ -11,9 +11,10 @@ import 'package:masoiree/features/games/games_service.dart';
 import 'package:masoiree/features/games/models/game_card/game_card.dart';
 
 class GamePlayPage extends ConsumerStatefulWidget {
-  const GamePlayPage({super.key, required this.gameID});
+  const GamePlayPage({super.key, required this.gameID, this.modeID});
 
   final int gameID;
+  final int? modeID;
 
   @override
   ConsumerState<GamePlayPage> createState() => _GamePlayPageState();
@@ -71,7 +72,8 @@ class _GamePlayPageState extends ConsumerState<GamePlayPage> {
                                   ),
                                 )
                               : FutureBuilder(
-                                  future: GameCardsService.instance.getRandom(widget.gameID, groupCode: ref.watch(authenticationProvider)!.code),
+                                  future: GameCardsService.instance
+                                      .getRandom(widget.gameID, groupCode: ref.watch(authenticationProvider)!.code, modeID: widget.modeID),
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState == ConnectionState.waiting) {
                                       return const Center(

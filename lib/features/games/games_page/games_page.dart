@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:masoiree/core/widgets/loading_overlay.dart';
+import 'package:masoiree/features/games/dialogs/game_modes_list.dart';
 import 'package:masoiree/features/games/games_page/dialogs/add_game.dart';
+import 'package:masoiree/features/games/models/game_mode/game_mode.dart';
 import 'package:masoiree/features/games/widgets/games_list.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
@@ -38,7 +40,7 @@ class _GamesPageState extends State<GamesPage> {
                     Expanded(child: GamesList(
                       onGameClicked: (id) {
                         if (widget.mode == GamesPageMode.playing) {
-                          context.go("/play/$id");
+                          _onPlayGame(id);
                         } else if (widget.mode == GamesPageMode.editing) {
                           context.go("/games/$id");
                         }
@@ -52,6 +54,26 @@ class _GamesPageState extends State<GamesPage> {
             )
           : null,
     );
+  }
+
+  Future<void> _onPlayGame(int id) async {
+    final GameMode? selectedMode = await showDialog(
+      context: context,
+      builder: (context) => GameModeListDialog(
+        gameID: id,
+        modeToExclude: const [],
+        showMaster: true,
+      ),
+    );
+
+    if (selectedMode == null) {
+      return;
+    }
+
+    if (mounted) {
+      final String modeFilter = selectedMode.id == 0 ? "" : "?mode=${selectedMode.id}";
+      context.go("/play/$id/$modeFilter");
+    }
   }
 
   Future<void> _onAddGame() async {
