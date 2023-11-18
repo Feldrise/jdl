@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jdl/core/form_validator.dart';
-import 'package:jdl/core/widgets/loading_overlay.dart';
-import 'package:jdl/core/widgets/status_message.dart';
-import 'package:jdl/features/authentication/authentication_provider.dart';
-import 'package:jdl/features/games/games_service.dart';
+import 'package:masoiree/core/form_validator.dart';
+import 'package:masoiree/core/widgets/loading_overlay.dart';
+import 'package:masoiree/core/widgets/status_message.dart';
+import 'package:masoiree/features/authentication/authentication_provider.dart';
+import 'package:masoiree/features/games/games_service.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class AddGameDialog extends ConsumerStatefulWidget {

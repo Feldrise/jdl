@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jdl/features/authentication/authentication_provider.dart';
-import 'package:jdl/features/games/games_service.dart';
+import 'package:masoiree/features/authentication/authentication_provider.dart';
+import 'package:masoiree/features/games/games_service.dart';
 
 class GameModesPage extends ConsumerStatefulWidget {
   const GameModesPage({super.key, required this.gameID});

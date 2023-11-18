@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:jdl/core/constants.dart';
+import 'package:masoiree/core/constants.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:jdl/features/games/models/game_card/game_card.dart';
+import 'package:masoiree/features/games/models/game_card/game_card.dart';
 
 class GameCardsService {
   GameCardsService._();

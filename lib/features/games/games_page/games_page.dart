@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jdl/core/widgets/loading_overlay.dart';
-import 'package:jdl/features/games/games_page/dialogs/add_game.dart';
-import 'package:jdl/features/games/widgets/games_list.dart';
+import 'package:masoiree/core/widgets/loading_overlay.dart';
+import 'package:masoiree/features/games/games_page/dialogs/add_game.dart';
+import 'package:masoiree/features/games/widgets/games_list.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 enum GamesPageMode { editing, playing }

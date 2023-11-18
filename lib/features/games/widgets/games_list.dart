@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jdl/core/utils.dart';
-import 'package:jdl/core/widgets/backgrounded_button.dart';
-import 'package:jdl/core/widgets/status_message.dart';
-import 'package:jdl/features/authentication/authentication_provider.dart';
-import 'package:jdl/features/games/games_service.dart';
-import 'package:jdl/features/games/models/game/game.dart';
+import 'package:masoiree/core/utils.dart';
+import 'package:masoiree/core/widgets/backgrounded_button.dart';
+import 'package:masoiree/core/widgets/status_message.dart';
+import 'package:masoiree/features/authentication/authentication_provider.dart';
+import 'package:masoiree/features/games/games_service.dart';
+import 'package:masoiree/features/games/models/game/game.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class GamesList extends ConsumerWidget {

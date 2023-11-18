@@ -1,4 +1,4 @@
-package com.feldrise.jdl
+package com.feldrise.masoiree
 
 import io.flutter.embedding.android.FlutterActivity
 

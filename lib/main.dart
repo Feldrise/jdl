@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jdl/features/authentication/authentication_provider.dart';
-import 'package:jdl/features/authentication/models/group/group.dart';
-import 'package:jdl/features/navigation/routes.dart';
-import 'package:jdl/theme/jdl_theme.dart';
+import 'package:masoiree/features/authentication/authentication_provider.dart';
+import 'package:masoiree/features/authentication/models/group/group.dart';
+import 'package:masoiree/features/navigation/routes.dart';
+import 'package:masoiree/theme/jdl_theme.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 void main() {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jdl/core/widgets/loading_overlay.dart';
-import 'package:jdl/core/widgets/status_message.dart';
-import 'package:jdl/features/authentication/authentication_provider.dart';
-import 'package:jdl/features/authentication/authentication_service.dart';
-import 'package:jdl/features/authentication/models/group/group.dart';
+import 'package:masoiree/core/widgets/loading_overlay.dart';
+import 'package:masoiree/core/widgets/status_message.dart';
+import 'package:masoiree/features/authentication/authentication_provider.dart';
+import 'package:masoiree/features/authentication/authentication_service.dart';
+import 'package:masoiree/features/authentication/models/group/group.dart';
 
 class AuthenticationPage extends ConsumerStatefulWidget {
   const AuthenticationPage({super.key});

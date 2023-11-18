@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jdl/core/widgets/backgrounded_button.dart';
-import 'package:jdl/features/authentication/authentication_provider.dart';
+import 'package:masoiree/core/widgets/backgrounded_button.dart';
+import 'package:masoiree/features/authentication/authentication_provider.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});

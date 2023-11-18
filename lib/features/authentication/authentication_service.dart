@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:jdl/core/constants.dart';
-import 'package:jdl/features/authentication/models/group/group.dart';
+import 'package:masoiree/core/constants.dart';
+import 'package:masoiree/features/authentication/models/group/group.dart';
 
 import 'package:http/http.dart' as http;
 

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jdl/core/widgets/layout.dart';
-import 'package:jdl/core/widgets/loading_overlay.dart';
-import 'package:jdl/features/authentication/authentication_page.dart';
-import 'package:jdl/features/authentication/models/group/group.dart';
-import 'package:jdl/features/games/game_cards_page/game_cards_page.dart';
-import 'package:jdl/features/games/game_modes_page/game_modes_page.dart';
-import 'package:jdl/features/games/game_play_page/game_play_page.dart';
-import 'package:jdl/features/games/games_page/games_page.dart';
-import 'package:jdl/features/home/home_page/home_page.dart';
+import 'package:masoiree/core/widgets/layout.dart';
+import 'package:masoiree/core/widgets/loading_overlay.dart';
+import 'package:masoiree/features/authentication/authentication_page.dart';
+import 'package:masoiree/features/authentication/models/group/group.dart';
+import 'package:masoiree/features/games/game_cards_page/game_cards_page.dart';
+import 'package:masoiree/features/games/game_modes_page/game_modes_page.dart';
+import 'package:masoiree/features/games/game_play_page/game_play_page.dart';
+import 'package:masoiree/features/games/games_page/games_page.dart';
+import 'package:masoiree/features/home/home_page/home_page.dart';
 
 CustomTransitionPage<dynamic> _buildPageWithDefaultTransition<T>({
   required BuildContext context,
