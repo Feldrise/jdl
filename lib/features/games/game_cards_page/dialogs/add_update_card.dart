@@ -45,6 +45,7 @@ class _AddUpdateGameCardDialogState extends ConsumerState<AddUpdateGameCardDialo
       child: Form(
         key: _formKey,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(

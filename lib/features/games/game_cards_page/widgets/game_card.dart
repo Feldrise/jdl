@@ -136,10 +136,14 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
   Future<void> _onUpdateGameCard(GameCard initialCard) async {
     bool hasGameAdded = await showModalBottomSheet<bool?>(
             context: context,
+            isScrollControlled: true,
             builder: (context) => LoadingOverlay(
-                    child: AddUpdateGameCardDialog(
-                  gameID: widget.gameID,
-                  initialGameCard: initialCard,
+                    child: Padding(
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: AddUpdateGameCardDialog(
+                    gameID: widget.gameID,
+                    initialGameCard: initialCard,
+                  ),
                 ))) ??
         false;
 

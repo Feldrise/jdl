@@ -77,7 +77,15 @@ class _GamesPageState extends State<GamesPage> {
   }
 
   Future<void> _onAddGame() async {
-    bool hasGameAdded = await showModalBottomSheet<bool?>(context: context, builder: (context) => const LoadingOverlay(child: AddGameDialog())) ?? false;
+    bool hasGameAdded = await showModalBottomSheet<bool?>(
+            context: context,
+            isScrollControlled: true,
+            builder: (context) => LoadingOverlay(
+                    child: Padding(
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: const AddGameDialog(),
+                ))) ??
+        false;
 
     if (hasGameAdded) {
       setState(() {});

@@ -150,10 +150,14 @@ class _GameModesPageState extends ConsumerState<GameModesPage> {
   Future<void> _onUpdateGameMode(GameMode initialMode) async {
     bool hasGameAdded = await showModalBottomSheet<bool?>(
             context: context,
+            isScrollControlled: true,
             builder: (context) => LoadingOverlay(
-                    child: AddUpdateGameModeDialog(
-                  gameID: widget.gameID,
-                  initialGameMode: initialMode,
+                    child: Padding(
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: AddUpdateGameModeDialog(
+                    gameID: widget.gameID,
+                    initialGameMode: initialMode,
+                  ),
                 ))) ??
         false;
 
@@ -163,9 +167,15 @@ class _GameModesPageState extends ConsumerState<GameModesPage> {
   }
 
   Future<void> _onAddGameMode() async {
-    bool hasGameAdded =
-        await showModalBottomSheet<bool?>(context: context, builder: (context) => LoadingOverlay(child: AddUpdateGameModeDialog(gameID: widget.gameID))) ??
-            false;
+    bool hasGameAdded = await showModalBottomSheet<bool?>(
+            context: context,
+            isScrollControlled: true,
+            builder: (context) => LoadingOverlay(
+                    child: Padding(
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: AddUpdateGameModeDialog(gameID: widget.gameID),
+                ))) ??
+        false;
 
     if (hasGameAdded) {
       setState(() {});
