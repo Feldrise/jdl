@@ -114,7 +114,14 @@ class _GameCardsPageState extends ConsumerState<GameCardsPage> {
 
                           return ListView.separated(
                             itemCount: gameCards.length,
-                            itemBuilder: (context, index) => GameCardCard(card: gameCards[index], gameID: widget.gameID, index: index),
+                            itemBuilder: (context, index) => GameCardCard(
+                              card: gameCards[index],
+                              gameID: widget.gameID,
+                              index: index,
+                              onUpdated: () {
+                                setState(() {});
+                              },
+                            ),
                             separatorBuilder: (context, index) => const SizedBox(
                               height: 8,
                             ),

@@ -8,9 +8,11 @@ import 'package:jdl/features/games/models/game_card/game_card.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class GameCardCard extends ConsumerStatefulWidget {
-  const GameCardCard({super.key, required this.card, required this.gameID, required this.index});
+  const GameCardCard({super.key, required this.card, required this.onUpdated, required this.gameID, required this.index});
 
   final GameCard card;
+
+  final Function() onUpdated;
 
   final int gameID;
   final int index;
@@ -70,7 +72,7 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
                       spacing: 8,
                       runSpacing: 8,
                       children: [
-                        GameModeButton(color: kModuloTextContainerColor(context, widget.index, padding: 1), mode: "Tous"),
+                        GameModeButton(color: kModuloTextContainerColor(context, widget.index, padding: 1), mode: "Tout"),
                         InkWell(
                             onTap: () {},
                             child: Icon(
@@ -106,7 +108,7 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
         false;
 
     if (hasGameAdded) {
-      setState(() {});
+      widget.onUpdated();
     }
   }
 }
