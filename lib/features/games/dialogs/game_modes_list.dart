@@ -30,7 +30,7 @@ class GameModeListDialog extends ConsumerWidget {
               children: [
                 Expanded(
                   child: Text(
-                    "Choisissez un mode de jeu",
+                    "Choisissez une catégorie",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Theme.of(context).colorScheme.primary),
                   ),
                 ),
@@ -57,18 +57,18 @@ class GameModeListDialog extends ConsumerWidget {
                     return const Align(
                       alignment: Alignment.topCenter,
                       child: StatusMessage(
-                        message: "Impossible de charger les modes du jeu...",
+                        message: "Impossible de charger les catégories du jeu...",
                       ),
                     );
                   }
 
                   final List<GameMode> gameModes = snapshot.data!;
 
-                  if (gameModes.isEmpty) {
+                  if (!showMaster && gameModes.isEmpty) {
                     return const Align(
                       alignment: Alignment.topCenter,
                       child: StatusMessage(
-                        message: "Vous n'avez pas encore de modes ! \"+\"",
+                        message: "Vous n'avez pas encore de catégories ! \"+\"",
                         type: StatusMessageType.info,
                       ),
                     );
@@ -90,7 +90,7 @@ class GameModeListDialog extends ConsumerWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 12),
                                     child: Text(
-                                      "Mélanger tous les modes",
+                                      "Mélanger toutes les catégories",
                                       style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                                     ),
                                   ),
@@ -129,7 +129,7 @@ class GameModeListDialog extends ConsumerWidget {
                                       padding: const EdgeInsets.only(top: 12),
                                       child: Text(
                                         gameModes[index].name,
-                                        style: TextStyle(color: kModuloTextContainerColor(context, index, padding: 1)),
+                                        style: TextStyle(color: kModuloTextContainerColor(context, index, padding: 2)),
                                       ),
                                     ),
                                   ),

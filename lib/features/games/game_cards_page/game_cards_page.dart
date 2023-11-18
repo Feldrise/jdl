@@ -57,7 +57,7 @@ class _GameCardsPageState extends ConsumerState<GameCardsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Les modes de jeu",
+                              "Les catégories de jeu",
                               style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
                             ),
                             const SizedBox(
@@ -70,7 +70,7 @@ class _GameCardsPageState extends ConsumerState<GameCardsPage> {
                                       context.go("/games/${widget.gameID}/modes");
                                     },
                                     icon: const Icon(Icons.arrow_back),
-                                    label: const Text("Voir les modes du jeu")))
+                                    label: const Text("Voir les catégories du jeu")))
                           ],
                         ),
                       ),

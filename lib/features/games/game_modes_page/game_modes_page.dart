@@ -43,7 +43,7 @@ class _GameModesPageState extends ConsumerState<GameModesPage> {
                   constraints: const BoxConstraints(maxWidth: 400),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                     Text(
-                      "Les modes du jeu",
+                      "Les catégories du jeu",
                       style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Theme.of(context).colorScheme.primary),
                     ),
                     const SizedBox(
@@ -74,7 +74,7 @@ class _GameModesPageState extends ConsumerState<GameModesPage> {
                             return const Align(
                               alignment: Alignment.topCenter,
                               child: StatusMessage(
-                                message: "Vous n'avez pas encore de modes ! Créer-en un en appuyant sur le \"+\"",
+                                message: "Vous n'avez pas encore de catégories ! Créer-en une en appuyant sur le \"+\"",
                                 type: StatusMessageType.info,
                               ),
                             );
@@ -95,7 +95,7 @@ class _GameModesPageState extends ConsumerState<GameModesPage> {
                                         children: [
                                           IconButton(
                                               onPressed: () => _onUpdateGameMode(gameModes[index]),
-                                              color: kModuloTextContainerColor(context, index, padding: 1),
+                                              color: kModuloTextContainerColor(context, index, padding: 2),
                                               icon: const Icon(LucideIcons.edit)),
                                           const SizedBox(
                                             width: 8,

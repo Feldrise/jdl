@@ -73,10 +73,10 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
                         ),
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 12),
+                            padding: const EdgeInsets.only(top: 6),
                             child: Text(
                               widget.card.content,
-                              style: TextStyle(color: kModuloTextContainerColor(context, widget.index, padding: 1)),
+                              style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: kModuloTextContainerColor(context, widget.index, padding: 1)),
                             ),
                           ),
                         ),
@@ -86,7 +86,7 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
                       height: 12,
                     ),
                     Text(
-                      "Inclue dans les modes de jeu :",
+                      "Inclue dans les catégories du jeu :",
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(color: kModuloTextContainerColor(context, widget.index, padding: 1)),
                     ),
                     const SizedBox(
@@ -97,7 +97,7 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
                       spacing: 8,
                       runSpacing: 8,
                       children: [
-                        GameModeButton(color: kModuloTextContainerColor(context, widget.index, padding: 1), mode: "Tout"),
+                        GameModeButton(color: kModuloTextContainerColor(context, widget.index, padding: 1), mode: "Toutes"),
                         for (final mode in _gameModes)
                           GameModeButton(
                               color: kModuloTextContainerColor(context, widget.index, padding: 1), mode: mode.name, onRemove: () => _onRemoveGameMode(mode)),
