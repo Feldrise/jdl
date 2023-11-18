@@ -22,6 +22,7 @@ GameCard _$GameCardFromJson(Map<String, dynamic> json) {
 mixin _$GameCard {
   int get id => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  List<GameMode> get modes => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $GameCardCopyWith<$Res> {
   factory $GameCardCopyWith(GameCard value, $Res Function(GameCard) then) =
       _$GameCardCopyWithImpl<$Res, GameCard>;
   @useResult
-  $Res call({int id, String content});
+  $Res call({int id, String content, List<GameMode> modes});
 }
 
 /// @nodoc
@@ -52,6 +53,7 @@ class _$GameCardCopyWithImpl<$Res, $Val extends GameCard>
   $Res call({
     Object? id = null,
     Object? content = null,
+    Object? modes = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -62,6 +64,10 @@ class _$GameCardCopyWithImpl<$Res, $Val extends GameCard>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      modes: null == modes
+          ? _value.modes
+          : modes // ignore: cast_nullable_to_non_nullable
+              as List<GameMode>,
     ) as $Val);
   }
 }
@@ -74,7 +80,7 @@ abstract class _$$GameCardImplCopyWith<$Res>
       __$$GameCardImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String content});
+  $Res call({int id, String content, List<GameMode> modes});
 }
 
 /// @nodoc
@@ -90,6 +96,7 @@ class __$$GameCardImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? content = null,
+    Object? modes = null,
   }) {
     return _then(_$GameCardImpl(
       null == id
@@ -100,6 +107,10 @@ class __$$GameCardImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      modes: null == modes
+          ? _value._modes
+          : modes // ignore: cast_nullable_to_non_nullable
+              as List<GameMode>,
     ));
   }
 }
@@ -107,7 +118,9 @@ class __$$GameCardImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$GameCardImpl implements _GameCard {
-  const _$GameCardImpl(this.id, {required this.content});
+  const _$GameCardImpl(this.id,
+      {required this.content, final List<GameMode> modes = const <GameMode>[]})
+      : _modes = modes;
 
   factory _$GameCardImpl.fromJson(Map<String, dynamic> json) =>
       _$$GameCardImplFromJson(json);
@@ -116,10 +129,18 @@ class _$GameCardImpl implements _GameCard {
   final int id;
   @override
   final String content;
+  final List<GameMode> _modes;
+  @override
+  @JsonKey()
+  List<GameMode> get modes {
+    if (_modes is EqualUnmodifiableListView) return _modes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_modes);
+  }
 
   @override
   String toString() {
-    return 'GameCard(id: $id, content: $content)';
+    return 'GameCard(id: $id, content: $content, modes: $modes)';
   }
 
   @override
@@ -128,12 +149,14 @@ class _$GameCardImpl implements _GameCard {
         (other.runtimeType == runtimeType &&
             other is _$GameCardImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.content, content) || other.content == content));
+            (identical(other.content, content) || other.content == content) &&
+            const DeepCollectionEquality().equals(other._modes, _modes));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, content);
+  int get hashCode => Object.hash(
+      runtimeType, id, content, const DeepCollectionEquality().hash(_modes));
 
   @JsonKey(ignore: true)
   @override
@@ -150,8 +173,9 @@ class _$GameCardImpl implements _GameCard {
 }
 
 abstract class _GameCard implements GameCard {
-  const factory _GameCard(final int id, {required final String content}) =
-      _$GameCardImpl;
+  const factory _GameCard(final int id,
+      {required final String content,
+      final List<GameMode> modes}) = _$GameCardImpl;
 
   factory _GameCard.fromJson(Map<String, dynamic> json) =
       _$GameCardImpl.fromJson;
@@ -160,6 +184,8 @@ abstract class _GameCard implements GameCard {
   int get id;
   @override
   String get content;
+  @override
+  List<GameMode> get modes;
   @override
   @JsonKey(ignore: true)
   _$$GameCardImplCopyWith<_$GameCardImpl> get copyWith =>

@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:masoiree/core/utils.dart';
 import 'package:masoiree/core/widgets/loading_overlay.dart';
+import 'package:masoiree/core/widgets/status_message.dart';
+import 'package:masoiree/features/authentication/authentication_provider.dart';
+import 'package:masoiree/features/games/dialogs/game_modes_list.dart';
 import 'package:masoiree/features/games/game_cards_page/dialogs/add_update_card.dart';
 import 'package:masoiree/features/games/game_cards_page/widgets/game_mode_button.dart';
+import 'package:masoiree/features/games/game_cards_service.dart';
 import 'package:masoiree/features/games/models/game_card/game_card.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:masoiree/features/games/models/game_mode/game_mode.dart';
 
 class GameCardCard extends ConsumerStatefulWidget {
   const GameCardCard({super.key, required this.card, required this.onUpdated, required this.gameID, required this.index});
@@ -22,6 +27,26 @@ class GameCardCard extends ConsumerStatefulWidget {
 }
 
 class _GameCardCardState extends ConsumerState<GameCardCard> {
+  final List<GameMode> _gameModes = [];
+
+  String _errorMessage = "";
+
+  @override
+  void initState() {
+    super.initState();
+
+    _gameModes.clear();
+    _gameModes.addAll(widget.card.modes);
+  }
+
+  @override
+  void didUpdateWidget(covariant GameCardCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    _gameModes.clear();
+    _gameModes.addAll(widget.card.modes);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -73,14 +98,25 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
                       runSpacing: 8,
                       children: [
                         GameModeButton(color: kModuloTextContainerColor(context, widget.index, padding: 1), mode: "Tout"),
+                        for (final mode in _gameModes)
+                          GameModeButton(
+                              color: kModuloTextContainerColor(context, widget.index, padding: 1), mode: mode.name, onRemove: () => _onRemoveGameMode(mode)),
                         InkWell(
-                            onTap: () {},
+                            onTap: _onAddGameMode,
                             child: Icon(
                               LucideIcons.plusCircle,
                               color: kModuloTextContainerColor(context, widget.index, padding: 1),
                             ))
                       ],
-                    )
+                    ),
+                    if (_errorMessage.isNotEmpty) ...[
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      StatusMessage(
+                        message: _errorMessage,
+                      )
+                    ]
                   ],
                 ),
               ),
@@ -109,6 +145,55 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
 
     if (hasGameAdded) {
       widget.onUpdated();
+    }
+  }
+
+  Future<void> _onAddGameMode() async {
+    final GameMode? selectedMode = await showDialog(
+      context: context,
+      builder: (context) => GameModeListDialog(gameID: widget.gameID, modeToExclude: [for (final mode in _gameModes) mode.id]),
+    );
+
+    if (selectedMode == null) {
+      return;
+    }
+
+    if (mounted) {
+      LoadingOverlay.of(context).show();
+    }
+
+    try {
+      await GameCardsService.instance
+          .updateModeAssociation(widget.card.id, selectedMode.id, "add", widget.gameID, groupCode: ref.read(authenticationProvider)!.code);
+
+      setState(() {
+        _gameModes.add(selectedMode);
+        LoadingOverlay.of(context).hide();
+      });
+    } on Exception {
+      setState(() {
+        _errorMessage = "Impossible d'ajouter ce mode...";
+        LoadingOverlay.of(context).hide();
+      });
+    }
+  }
+
+  Future<void> _onRemoveGameMode(GameMode toRemove) async {
+    LoadingOverlay.of(context).show();
+
+    try {
+      await GameCardsService.instance
+          .updateModeAssociation(widget.card.id, toRemove.id, "remove", widget.gameID, groupCode: ref.read(authenticationProvider)!.code);
+
+      setState(() {
+        _gameModes.remove(toRemove);
+        LoadingOverlay.of(context).hide();
+      });
+    } on Exception {
+      setState(() {
+        _errorMessage = "Impossible de supprimer ce mode...";
+        LoadingOverlay.of(context).hide();
+      });
     }
   }
 }

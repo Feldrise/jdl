@@ -20,7 +20,13 @@ class GameModeButton extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (onRemove != null) ...[
-            IconButton(onPressed: () {}, color: color, icon: const Icon(LucideIcons.x)),
+            InkWell(
+                onTap: onRemove,
+                child: Icon(
+                  LucideIcons.x,
+                  color: color,
+                  size: 16,
+                )),
             const SizedBox(
               width: 4,
             ),
