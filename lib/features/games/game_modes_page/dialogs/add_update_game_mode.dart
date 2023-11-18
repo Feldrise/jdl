@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:masoiree/core/form_validator.dart';
 import 'package:masoiree/core/widgets/loading_overlay.dart';
 import 'package:masoiree/core/widgets/status_message.dart';
 import 'package:masoiree/features/authentication/authentication_provider.dart';
-import 'package:masoiree/features/games/game_cards_service.dart';
-import 'package:masoiree/features/games/models/game_card/game_card.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:masoiree/features/games/game_modes_service.dart';
+import 'package:masoiree/features/games/models/game_mode/game_mode.dart';
 
-class AddUpdateGameCardDialog extends ConsumerStatefulWidget {
-  const AddUpdateGameCardDialog({super.key, required this.gameID, this.initialGameCard});
+class AddUpdateGameModeDialog extends ConsumerStatefulWidget {
+  const AddUpdateGameModeDialog({super.key, required this.gameID, this.initialGameMode});
 
-  final GameCard? initialGameCard;
+  final GameMode? initialGameMode;
   final int gameID;
 
   @override
-  ConsumerState<AddUpdateGameCardDialog> createState() => _AddUpdateGameCardDialogState();
+  ConsumerState<AddUpdateGameModeDialog> createState() => _AddUpdateGameModeDialogState();
 }
 
-class _AddUpdateGameCardDialogState extends ConsumerState<AddUpdateGameCardDialog> {
+class _AddUpdateGameModeDialogState extends ConsumerState<AddUpdateGameModeDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _contentController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   String _errorMessage = "";
 
@@ -28,14 +28,14 @@ class _AddUpdateGameCardDialogState extends ConsumerState<AddUpdateGameCardDialo
   void initState() {
     super.initState();
 
-    _contentController.text = widget.initialGameCard?.content ?? "";
+    _nameController.text = widget.initialGameMode?.name ?? "";
   }
 
   @override
-  void didUpdateWidget(covariant AddUpdateGameCardDialog oldWidget) {
+  void didUpdateWidget(covariant AddUpdateGameModeDialog oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    _contentController.text = widget.initialGameCard?.content ?? "";
+    _nameController.text = widget.initialGameMode?.name ?? "";
   }
 
   @override
@@ -51,7 +51,7 @@ class _AddUpdateGameCardDialogState extends ConsumerState<AddUpdateGameCardDialo
               children: [
                 Expanded(
                   child: Text(
-                    widget.initialGameCard != null ? "Modifier la carte" : "Créer une carte",
+                    widget.initialGameMode != null ? "Modifier le mode de jeu" : "Créer une mode de jeu",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Theme.of(context).colorScheme.primary),
                   ),
                 ),
@@ -73,26 +73,24 @@ class _AddUpdateGameCardDialogState extends ConsumerState<AddUpdateGameCardDialo
               ),
             ],
             TextFormField(
-              controller: _contentController,
+              controller: _nameController,
               decoration: const InputDecoration(
-                labelText: "Le contenue de la carte",
-                hintText: "Le contenue de la carte...",
+                labelText: "Le nom du mode",
+                hintText: "Le nom du mode...",
               ),
-              keyboardType: TextInputType.multiline,
-              maxLines: 4,
               validator: FormValidator.requiredValidator,
             ),
             const SizedBox(
               height: 20,
             ),
-            FilledButton(onPressed: _onAddGameCard, child: Text(widget.initialGameCard != null ? "Modifier" : "Créer"))
+            FilledButton(onPressed: _onAddMode, child: Text(widget.initialGameMode != null ? "Modifier" : "Créer"))
           ],
         ),
       ),
     );
   }
 
-  Future<void> _onAddGameCard() async {
+  Future<void> _onAddMode() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -103,11 +101,11 @@ class _AddUpdateGameCardDialogState extends ConsumerState<AddUpdateGameCardDialo
     });
 
     try {
-      if (widget.initialGameCard != null) {
-        await GameCardsService.instance
-            .update(widget.initialGameCard!.id, _contentController.text, widget.gameID, groupCode: ref.read(authenticationProvider)!.code);
+      if (widget.initialGameMode != null) {
+        await GameModesService.instance
+            .update(widget.initialGameMode!.id, _nameController.text, widget.gameID, groupCode: ref.read(authenticationProvider)!.code);
       } else {
-        await GameCardsService.instance.create(_contentController.text, widget.gameID, groupCode: ref.read(authenticationProvider)!.code);
+        await GameModesService.instance.create(_nameController.text, widget.gameID, groupCode: ref.read(authenticationProvider)!.code);
       }
 
       if (mounted) {

@@ -65,7 +65,9 @@ class _GameCardsPageState extends ConsumerState<GameCardsPage> {
                             ),
                             Directionality(
                                 textDirection: TextDirection.rtl,
-                                child: TextButton.icon(onPressed: () {}, icon: const Icon(Icons.arrow_back), label: const Text("Voir les modes du jeu")))
+                                child: TextButton.icon(onPressed: () {
+                                  context.go("/games/${widget.gameID}/modes");
+                                }, icon: const Icon(Icons.arrow_back), label: const Text("Voir les modes du jeu")))
                           ],
                         ),
                       ),
