@@ -57,7 +57,7 @@ class GameCardsService {
     throw PlatformException(code: response.statusCode.toString(), message: response.body);
   }
 
-  Future<void> create(String content, int gameID, {required String groupCode}) async {
+  Future<void> create(String content, int gameID, {String? type, required String groupCode}) async {
     final http.Response response = await http.post(Uri.parse("$kApiBaseURL/games/$gameID/cards"),
         headers: {
           "JDLGroupCode": groupCode,
@@ -65,6 +65,7 @@ class GameCardsService {
         },
         body: jsonEncode({
           "content": content,
+          "type": type,
         }));
 
     if (response.statusCode != 201) {
@@ -72,15 +73,13 @@ class GameCardsService {
     }
   }
 
-  Future<void> update(int id, String content, int gameID, {required String groupCode}) async {
+  Future<void> update(int id, String content, int gameID, {String? type, required String groupCode}) async {
     final http.Response response = await http.put(Uri.parse("$kApiBaseURL/games/$gameID/cards/$id"),
         headers: {
           "JDLGroupCode": groupCode,
           HttpHeaders.contentTypeHeader: "application/json; charset=UTF-8",
         },
-        body: jsonEncode({
-          "content": content,
-        }));
+        body: jsonEncode({"content": content, "type": type}));
 
     if (response.statusCode != 200) {
       throw PlatformException(code: response.statusCode.toString(), message: response.body);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:masoiree/core/constants.dart';
 import 'package:masoiree/core/utils.dart';
 import 'package:masoiree/core/widgets/backgrounded_button.dart';
 import 'package:masoiree/core/widgets/status_message.dart';
@@ -54,7 +55,7 @@ class GamesList extends ConsumerWidget {
                     padding: const EdgeInsets.only(top: 20, left: 20, right: 60, bottom: 20),
                     child: Row(
                       children: [
-                        const Icon(LucideIcons.diamond),
+                        Icon(kIconForTtype[games[index].type] ?? LucideIcons.galleryHorizontalEnd),
                         const SizedBox(
                           width: 10,
                         ),

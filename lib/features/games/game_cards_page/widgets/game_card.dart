@@ -13,13 +13,14 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:masoiree/features/games/models/game_mode/game_mode.dart';
 
 class GameCardCard extends ConsumerStatefulWidget {
-  const GameCardCard({super.key, required this.card, required this.onUpdated, required this.gameID, required this.index});
+  const GameCardCard({super.key, required this.card, required this.onUpdated, required this.gameID, required this.gameType, required this.index});
 
   final GameCard card;
 
   final Function() onUpdated;
 
   final int gameID;
+  final String gameType;
   final int index;
 
   @override
@@ -47,12 +48,36 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
     _gameModes.addAll(widget.card.modes);
   }
 
+  Color _getCardBackgroundColor() {
+    if (widget.gameType == "truthordare") {
+      if (widget.card.type == "truth") {
+        return Theme.of(context).colorScheme.tertiaryContainer;
+      } else if (widget.card.type == "dare") {
+        return Theme.of(context).colorScheme.primaryContainer;
+      }
+    }
+
+    return kModuloBackgroundColor(context, widget.index, padding: 1);
+  }
+
+  Color _getCardTextColor() {
+    if (widget.gameType == "truthordare") {
+      if (widget.card.type == "truth") {
+        return Theme.of(context).colorScheme.onTertiaryContainer;
+      } else if (widget.card.type == "dare") {
+        return Theme.of(context).colorScheme.onPrimaryContainer;
+      }
+    }
+
+    return kModuloTextContainerColor(context, widget.index, padding: 1);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
         // elevation: 0,
-        color: kModuloBackgroundColor(context, widget.index, padding: 1),
-        surfaceTintColor: kModuloBackgroundColor(context, widget.index, padding: 1),
+        color: _getCardBackgroundColor(),
+        surfaceTintColor: _getCardBackgroundColor(),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Row(
@@ -61,22 +86,25 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    if (widget.gameType == "truthordare") ...[
+                      GameModeButton(color: _getCardTextColor(), mode: widget.card.type == "dare" ? "Action" : "Vérité"),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                    ],
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        IconButton(
-                            onPressed: () => _onUpdateGameCard(widget.card),
-                            color: kModuloTextContainerColor(context, widget.index, padding: 1),
-                            icon: const Icon(LucideIcons.edit)),
+                        IconButton(onPressed: () => _onUpdateGameCard(widget.card), color: _getCardTextColor(), icon: const Icon(LucideIcons.edit)),
                         const SizedBox(
                           width: 8,
                         ),
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 6),
+                            padding: const EdgeInsets.only(top: 0),
                             child: Text(
                               widget.card.content,
-                              style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: kModuloTextContainerColor(context, widget.index, padding: 1)),
+                              style: Theme.of(context).textTheme.titleLarge!.copyWith(color: _getCardTextColor()),
                             ),
                           ),
                         ),
@@ -87,7 +115,7 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
                     ),
                     Text(
                       "Inclue dans les catégories du jeu :",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(color: kModuloTextContainerColor(context, widget.index, padding: 1)),
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(color: _getCardTextColor()),
                     ),
                     const SizedBox(
                       height: 4,
@@ -97,16 +125,9 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
                       spacing: 8,
                       runSpacing: 8,
                       children: [
-                        GameModeButton(color: kModuloTextContainerColor(context, widget.index, padding: 1), mode: "Toutes"),
-                        for (final mode in _gameModes)
-                          GameModeButton(
-                              color: kModuloTextContainerColor(context, widget.index, padding: 1), mode: mode.name, onRemove: () => _onRemoveGameMode(mode)),
-                        InkWell(
-                            onTap: _onAddGameMode,
-                            child: Icon(
-                              LucideIcons.plusCircle,
-                              color: kModuloTextContainerColor(context, widget.index, padding: 1),
-                            ))
+                        GameModeButton(color: _getCardTextColor(), mode: "Toutes"),
+                        for (final mode in _gameModes) GameModeButton(color: _getCardTextColor(), mode: mode.name, onRemove: () => _onRemoveGameMode(mode)),
+                        InkWell(onTap: _onAddGameMode, child: Icon(LucideIcons.plusCircle, color: _getCardTextColor()))
                       ],
                     ),
                     if (_errorMessage.isNotEmpty) ...[
@@ -142,6 +163,7 @@ class _GameCardCardState extends ConsumerState<GameCardCard> {
                   padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                   child: AddUpdateGameCardDialog(
                     gameID: widget.gameID,
+                    gameType: widget.gameType,
                     initialGameCard: initialCard,
                   ),
                 ))) ??

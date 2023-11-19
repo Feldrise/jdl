@@ -9,6 +9,7 @@ class GameCard with _$GameCard {
   const factory GameCard(
     int id, {
     required String content,
+    String? type,
     @Default(<GameMode>[]) List<GameMode> modes,
   }) = _GameCard;
 

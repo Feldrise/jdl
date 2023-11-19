@@ -9,6 +9,7 @@ import 'package:masoiree/features/games/game_cards_page/dialogs/add_update_card.
 import 'package:masoiree/features/games/game_cards_page/widgets/game_card.dart';
 import 'package:masoiree/features/games/game_cards_service.dart';
 import 'package:masoiree/features/games/games_service.dart';
+import 'package:masoiree/features/games/models/game/game.dart';
 import 'package:masoiree/features/games/models/game_card/game_card.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
@@ -43,112 +44,142 @@ class _GameCardsPageState extends ConsumerState<GameCardsPage> {
           child: Center(
               child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 400),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                    BackgroundedButton(
-                      image: "assets/images/human1.png",
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      onPressed: () {
-                        context.go("/games/${widget.gameID}/modes");
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20, left: 20, right: 60, bottom: 20),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Les catégories de jeu",
-                              style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
+                  child: FutureBuilder(
+                      future: GamesService.instance.get(widget.gameID, groupCode: ref.watch(authenticationProvider)!.code),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        if (snapshot.hasError) {
+                          return const StatusMessage(message: "Impossible de charger le jeu...");
+                        }
+
+                        final Game game = snapshot.data!;
+                        return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                          BackgroundedButton(
+                            image: "assets/images/human1.png",
+                            color: Theme.of(context).colorScheme.primaryContainer,
+                            onPressed: () {
+                              context.go("/games/${widget.gameID}/modes");
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 20, left: 20, right: 60, bottom: 20),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Les catégories de jeu",
+                                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
+                                  ),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: TextButton.icon(
+                                          onPressed: () {
+                                            context.go("/games/${widget.gameID}/modes");
+                                          },
+                                          icon: const Icon(Icons.arrow_back),
+                                          label: const Text("Voir les catégories du jeu")))
+                                ],
+                              ),
                             ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: TextButton.icon(
-                                    onPressed: () {
-                                      context.go("/games/${widget.gameID}/modes");
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Text(
+                            "Les cartes du jeu",
+                            style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Theme.of(context).colorScheme.primary),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          Expanded(
+                            child: FutureBuilder(
+                              future: GameCardsService.instance.getAll(widget.gameID, groupCode: ref.watch(authenticationProvider)!.code),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+
+                                if (snapshot.hasError) {
+                                  return const Align(
+                                    alignment: Alignment.topCenter,
+                                    child: StatusMessage(
+                                      message: "Impossible de charger les cartes du jeu...",
+                                    ),
+                                  );
+                                }
+
+                                final List<GameCard> gameCards = snapshot.data!;
+
+                                if (gameCards.isEmpty) {
+                                  return const Align(
+                                    alignment: Alignment.topCenter,
+                                    child: StatusMessage(
+                                      message: "Vous n'avez pas encore de cartes ! Créer-en un en appuyant sur le \"+\"",
+                                      type: StatusMessageType.info,
+                                    ),
+                                  );
+                                }
+
+                                return ListView.separated(
+                                  itemCount: gameCards.length,
+                                  itemBuilder: (context, index) => GameCardCard(
+                                    card: gameCards[index],
+                                    gameID: widget.gameID,
+                                    gameType: game.type,
+                                    index: index,
+                                    onUpdated: () {
+                                      setState(() {});
                                     },
-                                    icon: const Icon(Icons.arrow_back),
-                                    label: const Text("Voir les catégories du jeu")))
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      "Les cartes du jeu",
-                      style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Theme.of(context).colorScheme.primary),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Expanded(
-                      child: FutureBuilder(
-                        future: GameCardsService.instance.getAll(widget.gameID, groupCode: ref.watch(authenticationProvider)!.code),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-
-                          if (snapshot.hasError) {
-                            return const Align(
-                              alignment: Alignment.topCenter,
-                              child: StatusMessage(
-                                message: "Impossible de charger les cartes du jeu...",
-                              ),
-                            );
-                          }
-
-                          final List<GameCard> gameCards = snapshot.data!;
-
-                          if (gameCards.isEmpty) {
-                            return const Align(
-                              alignment: Alignment.topCenter,
-                              child: StatusMessage(
-                                message: "Vous n'avez pas encore de cartes ! Créer-en un en appuyant sur le \"+\"",
-                                type: StatusMessageType.info,
-                              ),
-                            );
-                          }
-
-                          return ListView.separated(
-                            itemCount: gameCards.length,
-                            itemBuilder: (context, index) => GameCardCard(
-                              card: gameCards[index],
-                              gameID: widget.gameID,
-                              index: index,
-                              onUpdated: () {
-                                setState(() {});
+                                  ),
+                                  separatorBuilder: (context, index) => const SizedBox(
+                                    height: 8,
+                                  ),
+                                );
                               },
                             ),
-                            separatorBuilder: (context, index) => const SizedBox(
-                              height: 8,
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  ])))),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _onAddGameCard,
-        child: const Icon(LucideIcons.plus),
-      ),
+                          )
+                        ]);
+                      })))),
+      floatingActionButton: FutureBuilder(
+          future: GamesService.instance.get(widget.gameID, groupCode: ref.watch(authenticationProvider)!.code),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done && !snapshot.hasError) {
+              return FloatingActionButton(
+                onPressed: () => _onAddGameCard(snapshot.data!.type),
+                child: const Icon(LucideIcons.plus),
+              );
+            }
+
+            return const FloatingActionButton(
+              onPressed: null,
+              child: Icon(LucideIcons.loader),
+            );
+          }),
     );
   }
 
-  Future<void> _onAddGameCard() async {
+  Future<void> _onAddGameCard(String gameType) async {
     bool hasGameAdded = await showModalBottomSheet<bool?>(
             context: context,
             isScrollControlled: true,
             builder: (context) => LoadingOverlay(
                     child: Padding(
                   padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: AddUpdateGameCardDialog(gameID: widget.gameID),
+                  child: AddUpdateGameCardDialog(
+                    gameID: widget.gameID,
+                    gameType: gameType,
+                  ),
                 ))) ??
         false;
 

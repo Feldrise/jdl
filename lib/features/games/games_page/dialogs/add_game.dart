@@ -18,7 +18,7 @@ class _AddGameDialogState extends ConsumerState<AddGameDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
 
-  String _type = "cards";
+  String? _type;
 
   String _errorMessage = "";
 
@@ -68,9 +68,14 @@ class _AddGameDialogState extends ConsumerState<AddGameDialog> {
             const SizedBox(
               height: 12,
             ),
-            DropdownButtonFormField(
+            DropdownButtonFormField<String?>(
               value: _type,
               items: const [
+                DropdownMenuItem(value: null, child: Text("Choisir un type de jeu")),
+                DropdownMenuItem(
+                  value: "truthordare",
+                  child: Text("Action ou vérité"),
+                ),
                 DropdownMenuItem(
                   value: "cards",
                   child: Text("Carte"),
@@ -81,7 +86,7 @@ class _AddGameDialogState extends ConsumerState<AddGameDialog> {
               ),
               onChanged: (value) {
                 setState(() {
-                  _type = value ?? "cards";
+                  _type = value;
                 });
               },
               validator: FormValidator.requiredValidator,
@@ -107,7 +112,7 @@ class _AddGameDialogState extends ConsumerState<AddGameDialog> {
     });
 
     try {
-      await GamesService.instance.create(_nameController.text, _type, groupCode: ref.read(authenticationProvider)!.code);
+      await GamesService.instance.create(_nameController.text, _type!, groupCode: ref.read(authenticationProvider)!.code);
 
       if (mounted) {
         LoadingOverlay.of(context).hide();

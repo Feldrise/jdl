@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:masoiree/core/constants.dart';
 import 'package:masoiree/core/widgets/loading_overlay.dart';
 import 'package:masoiree/features/games/dialogs/game_modes_list.dart';
 import 'package:masoiree/features/games/games_page/dialogs/add_game.dart';
@@ -33,6 +34,30 @@ class _GamesPageState extends State<GamesPage> {
                     Text(
                       "Tous mes jeux",
                       style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Theme.of(context).colorScheme.primary),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Row(
+                      children: [
+                        Icon(kIconForTtype["cards"]),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        const Text("= Jeu simple")
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      children: [
+                        Icon(kIconForTtype["truthordare"]),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        const Text("= Jeu d'action ou vérité")
+                      ],
                     ),
                     const SizedBox(
                       height: 20,
