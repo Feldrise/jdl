@@ -23,7 +23,7 @@ class _AuthenticationPageState extends ConsumerState<AuthenticationPage> {
     return Scaffold(
         body: Center(
       child: Container(
-        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/backgrounds/plantsdark.png"), alignment: Alignment.bottomCenter)),
+        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/backgrounds/plantdark.png"), alignment: Alignment.bottomCenter)),
         constraints: const BoxConstraints(maxWidth: 400),
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(

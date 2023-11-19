@@ -11,7 +11,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Container(
-          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/backgrounds/plantsdark.png"), alignment: Alignment.bottomCenter)),
+          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/backgrounds/plantdark.png"), alignment: Alignment.bottomCenter)),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Center(
             child: ConstrainedBox(

@@ -25,7 +25,7 @@ class _GamesPageState extends State<GamesPage> {
     return Scaffold(
       appBar: AppBar(),
       body: Container(
-          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/backgrounds/plantsdark.png"), alignment: Alignment.bottomCenter)),
+          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/backgrounds/plantdark.png"), alignment: Alignment.bottomCenter)),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Center(
               child: ConstrainedBox(

@@ -25,7 +25,7 @@ class MainApp extends ConsumerWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Image.asset(
-                "assets/backgrounds/plantsdark.png",
+                "assets/backgrounds/plantdark.png",
                 fit: BoxFit.cover,
               );
             }

@@ -6,6 +6,7 @@ import 'package:masoiree/core/constants.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:masoiree/features/games/models/game_card/game_card.dart';
+import 'package:masoiree/features/games/models/truth_or_dare_cards/truth_or_dare_cards.dart';
 
 class GameCardsService {
   GameCardsService._();
@@ -52,6 +53,22 @@ class GameCardsService {
       }
 
       return result;
+    }
+
+    throw PlatformException(code: response.statusCode.toString(), message: response.body);
+  }
+
+  Future<TruthOrDareCards> getTruthOrDare(int gameID, {int limit = 20, int? modeID, required String groupCode}) async {
+    final String modeIDFilter = modeID == null ? "" : "&mode=$modeID";
+    final http.Response response = await http.get(
+      Uri.parse("$kApiBaseURL/games/$gameID/cards/truthordare?limit=$limit$modeIDFilter"),
+      headers: {
+        "JDLGroupCode": groupCode,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return TruthOrDareCards.fromJson(jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>);
     }
 
     throw PlatformException(code: response.statusCode.toString(), message: response.body);
