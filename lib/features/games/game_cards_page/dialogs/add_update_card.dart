@@ -35,13 +35,13 @@ class _AddUpdateGameCardDialogState extends ConsumerState<AddUpdateGameCardDialo
     _cardType = widget.initialGameCard?.type;
   }
 
-  @override
-  void didUpdateWidget(covariant AddUpdateGameCardDialog oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  // @override
+  // void didUpdateWidget(covariant AddUpdateGameCardDialog oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
 
-    _contentController.text = widget.initialGameCard?.content ?? "";
-    _cardType = widget.initialGameCard?.type;
-  }
+  //   _contentController.text = widget.initialGameCard?.content ?? "";
+  //   _cardType = widget.initialGameCard?.type;
+  // }
 
   @override
   Widget build(BuildContext context) {

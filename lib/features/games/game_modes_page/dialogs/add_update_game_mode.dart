@@ -31,12 +31,12 @@ class _AddUpdateGameModeDialogState extends ConsumerState<AddUpdateGameModeDialo
     _nameController.text = widget.initialGameMode?.name ?? "";
   }
 
-  @override
-  void didUpdateWidget(covariant AddUpdateGameModeDialog oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  // @override
+  // void didUpdateWidget(covariant AddUpdateGameModeDialog oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
 
-    _nameController.text = widget.initialGameMode?.name ?? "";
-  }
+  //   _nameController.text = widget.initialGameMode?.name ?? "";
+  // }
 
   @override
   Widget build(BuildContext context) {
